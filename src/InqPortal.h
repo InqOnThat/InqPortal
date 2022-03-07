@@ -18,7 +18,7 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.0.0"
+#define InqPortalVersion "5.0.1"
 #define CannedVersion    "500"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
@@ -181,6 +181,10 @@
 //              https://inqonthat.com/inqportal-help/
 //          * Generation of a working starter HTML page using Sketch's 
 //              published variables.  
+// 5.0.1    2022/3/7
+//          * library.properties corrections
+//          * Removed some diagnostics that slipped through.
+//          * Comma delimiters in Data Loss field.
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies
