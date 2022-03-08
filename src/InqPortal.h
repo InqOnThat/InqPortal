@@ -18,7 +18,7 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.0.1"
+#define InqPortalVersion "5.1.0"
 #define CannedVersion    "500"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
@@ -185,6 +185,10 @@
 //          * library.properties corrections
 //          * Removed some diagnostics that slipped through.
 //          * Comma delimiters in Data Loss field.
+// 5.1.0    2022/3/8
+//          * Added functionality to permit publishRW set() methods to be
+//              used as events no variable defined.
+//          * Added ButtonClickEvent Example
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies
