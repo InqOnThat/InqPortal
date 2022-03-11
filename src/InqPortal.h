@@ -18,8 +18,8 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.1.1"
-#define CannedVersion    "501"   
+#define InqPortalVersion "5.1.2"
+#define CannedVersion    "502"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
 // 0.9.0    2020/01/15 Initial Version - complete re-write.  Previous version
@@ -189,9 +189,9 @@
 //          * Added functionality to permit publishRW set() methods to be
 //              used as events no variable defined.
 //          * Added ButtonClickEvent Example
-// 5.1.1    
+// 5.1.2    
 //          * OTA end missing.
-//          * Histogram glitching, increased padding to 0.6
+//          * Histogram glitching, overflow:hidden
 //          * Performance sent out all the time - WebSocket disconnects.
 
 // -----------------------------------------------------------------------------
