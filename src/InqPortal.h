@@ -18,8 +18,8 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.1.2"
-#define CannedVersion    "502"   
+#define InqPortalVersion "5.2.0"
+#define CannedVersion    "503"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
 // 0.9.0    2020/01/15 Initial Version - complete re-write.  Previous version
@@ -189,10 +189,19 @@
 //          * Added functionality to permit publishRW set() methods to be
 //              used as events no variable defined.
 //          * Added ButtonClickEvent Example
-// 5.1.2    
+// 5.1.1    2022/3/10
 //          * OTA end missing.
-//          * Histogram glitching, overflow:hidden
+//          * Histogram glitching, increased padding to 0.6
 //          * Performance sent out all the time - WebSocket disconnects.
+// 5.1.2    2022/3/11 - Didn't show up because I deleted 5.1.1
+//          * Histogram glitching, added overflow: hidden
+// 5.2.0    2022/3/15
+//          * WebSocket improvements 
+//              * use lwIP FLAG_COPY to hold ACK waiting.
+//              * when loss occurs, remove from oldest.
+//                  Under optimum WiFi, 1ms intervals x 4 clients => 202KB/sec    
+//          * Default Serial baud set to 74880
+//          * Client-side better detect router power-off, user changing SSIDs.
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies
@@ -221,7 +230,7 @@ public:
         u16 sizeConfig = 0, 
         
         // Speed for output to Arduino Serial Monitor.
-        u32 serialBaud = 115200);
+        u32 serialBaud = 74880);
         
     // Starts up the instance of InqPortal.  All values have workable defaults.
     rc begin(
