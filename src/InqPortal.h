@@ -18,7 +18,7 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.2.0"
+#define InqPortalVersion "5.2.1"
 #define CannedVersion    "503"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
@@ -202,6 +202,8 @@
 //                  Under optimum WiFi, 1ms intervals x 4 clients => 202KB/sec    
 //          * Default Serial baud set to 74880
 //          * Client-side better detect router power-off, user changing SSIDs.
+// 5.2.1    2022/3/17 
+//          * Added InqWeather to Examples
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies
