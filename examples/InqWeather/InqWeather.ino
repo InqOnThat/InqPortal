@@ -5,33 +5,36 @@
 // ============================= WIRING ========================================
 // See https://inqonthat.com/inqweather/ for more details.
 // This is representative for NodeMCU and WeMos ESP8266 development boards
-// Place the AH10 and BMP180 break-out boards on your bread board such that
+// Place the AHT10 and BMP180 break-out boards on your bread board such that
 // the VIN, GND, SCL and SDA pins share the same connections
 // Needs 4 wires total.
-// Red    - NodeMCU "3V" to AH10/BMP180 common VIN
-// Black  - NodeMCU "G"  to AH10/BMP180 common GND
-// Yellow - NodeMCU "D1" to AH10/BMP180 common SCL
-// Blue   - NodeMCU "D2" to AH10/BMP180 common SDA
-
+// Red    - NodeMCU "3V" to AHT10/BMP180 common VIN
+// Black  - NodeMCU "G"  to AHT10/BMP180 common GND
+// Yellow - NodeMCU "D1" to AHT10/BMP180 common SCL
+// Orange - NodeMCU "D2" to AHT10/BMP180 common SDA
 // =============================================================================
 
 ADC_MODE(ADC_VCC);
 
+// Can use NULL if you want to configure via InqPortal Admin
+#define YOUR_SSID NULL      // "Your routers SSID"   
+#define YOUR_PW NULL        // "Your routers Password"
 #define DEFAULT_HOST_SSID "InqWeather"
 #define VERSION_INQ_WEATHER "4.0.0"          
 #define LOG_LEVEL 1
 
-// Can use NULL if you want to configure via InqPortal Admin
-#define YOUR_SSID NULL      // "Your routers SSID"   
-#define YOUR_PW NULL        // "Your routers Password"
-
+// If you are at sea level, you shold leave altitude = 1.0.  If not...
+// To configure altitude for your weather station's location, use a website
+// like:  https://barometricpressure.app/ to find the current air pressure in
+// your area.  Calculate the ration = <website pressure> / <InqWeather pressure>
+// For instance at my location at 670 meters or 2190 feet, 
+// my ratio was = 1.0795 
 struct InqWeatherPersisted
 {
   float altitude;   // Factor to adjust pressure for altitude.
 };
 
-// https://barometricpressure.app/results?lat=35.4125&lng=-83.2992
-InqWeatherPersisted config = { 1.0795 };
+InqWeatherPersisted config = { 1.0 };
 InqPortal svr((u8*)&config, sizeof(InqWeatherPersisted));
 
 Adafruit_BMP085 bmp180;     // Uses standard I2C bus - SCL=D1, SDA=D2
@@ -114,7 +117,7 @@ void takeReading(void* tag)
 
     // Set "current" published variables and accumulate minute average values.
     
-    // Get AH10 Data
+    // Get AHT10 Data
     sensors_event_t humid, temp;
     aht10.getEvent(&humid, &temp);
     temperatureAHT10Cur = temp.temperature;
