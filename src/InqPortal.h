@@ -18,8 +18,8 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.2.2"
-#define CannedVersion    "504"   
+#define InqPortalVersion "5.2.3"
+#define CannedVersion    "505"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
 // 0.9.0    2020/01/15 Initial Version - complete re-write.  Previous version
@@ -204,13 +204,14 @@
 //          * Client-side better detect router power-off, user changing SSIDs.
 // 5.2.1    2022/3/17 
 //          * Added InqWeather to Examples
-// 5.2.2
+// 5.2.2    2022/3/22
 //          * Bug Fix - Histogram exporting
 //          * Error response of Upgrades is logged.
 //          * Comment changes in InqWeather.ino
 //          * Added InqSpeedRacer to Examples
 //          * InqPortal.js modification to re-support multi-server.
-//          * Bug Fix - Delete cause Log to display extra hour header
+// 5.2.3    2022/3/23
+//          * InqPortal.js enhancement to support checkboxes/radio buttons.
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies
