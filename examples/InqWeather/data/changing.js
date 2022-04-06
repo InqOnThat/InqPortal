@@ -1,3 +1,17 @@
+// * The Zambretti algorithm has 26 levels (A-Z).  Sunny/Clear weather is at the
+//      beginnging while stormy weather at the end.
+// * The JavaScript array "predict" at the bottom of this file contains the
+//      strings used for these 26 levels. You can change text for localization
+//      or more to your preferences.  Just be sure you keep 26 strings.
+// * An image can be loaded on the ESP8266 server to show a background for 
+//      each of these 26 levels.  eg (A.jpg, B.jpg, C.jpg... Z.jpg)
+// * Unfortunately, the limited "disk" space may limit what images you can 
+//      store.  Typical ESP8266 modules have 3MB available while a 
+//      WeMos Pro has 15MB available. The algorthim for image selection can
+//      compensate somewhat by using the closest (below) available.
+//      e.g.  Say you've loaded A.jpg, F.jpg, M.jpg and T.jpg.  If the
+//      Zambretti calculation returns E.jpg, the A.jpg will be shown.
+
 onModifyResult = function(p, v)
 {
     switch (p)
@@ -5,25 +19,26 @@ onModifyResult = function(p, v)
         case "T1":
         case "Th1":
         case "Tp":
-        case "Th":
-            v = v * 9 / 5 + 32;
-            v = v.toFixed(1);
+        case "Th":  
+            // Convert C to F
+            v = (v * 9 / 5 + 32).toFixed(1);
             break;
-    
-        case "H1":
-        case "H":
+
         case "P1":
         case "P":
+            // Convert mbar to in-Hg
+            v *= 0.02953;            
+        case "H1":
+        case "H":
             v = v.toFixed(1);
-            break;
+            break;            
         
-        case "D3P":
-            v = predict(v);
+        case "Z":
+            v = setBackground(v);
             break;
             
         case "V":
             v = "InqWeather v" + v;
-            setBackground('RainComing.jpg', 'teal');
             break;
             
         default:
@@ -33,86 +48,116 @@ onModifyResult = function(p, v)
     return v;
 };
 
-function setBackground(file, color)
+var last = -1;
+
+function setBackground(v)
 {
-    document.body.style.backgroundImage = "url('" + file + "')";
-    document.body.style.color = color;
+    // Get Zambretti letter code (A-Z) from the value (v = 0 to 25).
+    let z = String.fromCharCode(v + 65);
+    // Get return string for appropriate Zambretti conditions.
+    let rtn = z + ' - ' + predict[v];
+    // Look for the "closest" available file on the server.
+    
+    if (v != last)
+    {
+        // We don't want to keep searching every time we get an update
+        // if we didn't find it the last time OR its the same image.
+        last = v;   // (0 - 25)
+        
+        while (v >= 0)
+        {
+            z = String.fromCharCode(v + 65);    // (A - Z)
+            let file = z + '.jpg';
+            let http = new XMLHttpRequest();
+            http.open('GET', file, false);
+            http.send();
+            if (http.status != 404)
+            {
+                // Get image for Zambretti code.
+                document.body.style.backgroundImage = "url('" + file + "')";
+                document.body.style.color = clrs[v];
+                return rtn;
+            }
+            v--;
+        }    
+        document.body.style.backgroundImage = "url('back10.jpg')";
+        document.body.style.color = clrs[v];
+    }    
+    return rtn;
 };
 
-function predict(delta)
+function urlExists(url)
 {
-    // https://sciencing.com/high-low-reading-barometric-pressure-5814364.html
-    // Pressures and delta descriptions come from chart at the bottom of
-    // https://www.artofmanliness.com/lifestyle/gear/fair-or-foul-how-to-use-a-barometer/
-    // We don't have wind direction, so we'll "wing-it".
-
-    const MID_HIGH = 0.18;
-    const LOW_MID  = 0.04;
-    const SLOW_MID = 0.01;
-    const DFLT_CONDITION = "Same ole - Same ole";
-
-    if (P < 29.8)
-    {
-        if (delta < -MID_HIGH)
-        {
-            setBackground('Gale.jpg', 'orchid');
-			return "Severe northeast gales and heavy rain or snow,  followed in winter by cold wave.";
-        }
-        else if (delta > POS_MID_HIGH)
-        {
-            setBackground('ClearCold.jpg', 'navy');
-			return "Clearing and colder.";
-        }
-        else
-			return DFLT_CONDITION;
-    }
-    else if (P < 30)
-    {
-        if (delta < -MID_HIGH)
-        {
-            setBackground('RainWind.jpg', 'grey');
-			return "Rain with high-wind, followed with 2 days by clearing, colder.";
-        }
-        else if (delta < -SLOW_MID)
-        {
-            setBackground('RainComing.jpg', 'teal');
-			return "Rain within 18 hours that will continue for a day or two.";
-        }
-        else if (delta < SLOW_MID)
-			return DFLT_CONDITION;
-        else    // delta > SLOW_MID
-        {
-            setBackground('ClearCold.jpg', 'navy');
-			return "Clearing and colder within 12 hours.";
-        }
-    }
-    else if (P < 30.2)
-    {
-        if (delta < -MID_HIGH)
-        {
-            setBackground('WarmRain.jpg', 'lime');
-			return "Warmer, and rain with 24 hours";
-        }
-        else if (delta < MID_HIGH)
-        {
-            setBackground('FareStable.jpg', 'white');
-			return "Fair, with slight changes in temperature for 1 to 2 days.";
-        }
-        else    // delta > MID_HIGH
-        {
-            setBackground('FairRainComing.jpg', 'navy');
-			return "Fair, followed within 2 days by warmer and rain.";
-        }
-    }
-    else    // P >= 30.2
-    {
-        if (delta < -MID_HIGH)
-        {
-            setBackground('ClearCold.jpg', 'navy');
-			return "Cold and clear, quickly followed by warmer and rain.";
-        }
-        else 
-			return "No early change.";
-    }
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
 };
+
+var predict = new Array
+(
+    "Settled fine",
+    "Fine weather",
+    "Becoming fine",
+    "Fine, becoming less settled",
+    "Fine, possible showers",
+    "Fairly fine, improving", 
+    "Fairly fine, possible showers early", 
+    "Fairly fine, showery later", 
+    "Showery early, improving", 
+    "Changeable, mending", 
+    "Fairly fine, showers likely", 
+    "Rather unsettled clearing later",
+    "Unsettled, probably improving",
+    "Showery, bright intervals", 
+    "Showery, becoming less settled",
+    "Changeable, some rain", 
+    "Unsettled, short fine intervals", 
+    "Unsettled, rain later", 
+    "Unsettled, some rain", 
+    "Mostly very unsettled", 
+    "Occasional rain, worsening", 
+    "Rain at times, very unsettled", 
+    "Rain at frequent intervals", 
+    "Rain, very unsettled", 
+    "Stormy, may improve", 
+    "Stormy, much rain"
+); 
+
+// These represent the colors to be assigned to the text
+// of the 26 levels of the Zambretti algorithm.  
+// Change color to match your chosen images as you like.
+// Just make sure you keep 26 values.  The commented
+// ones are ones that are included in the demo.  If you
+// add more images, make sure you pick an appropriate
+// color to go with it.
+var clrs = new Array
+(
+  'navy',   // 0, A.jpg
+  'black',
+  'gold',   // 2, C.jpg
+  'black',
+  'black',
+  'teal',   // 5, F.jpg
+  'black',
+  'black',
+  'lime',   // 8, I.jpg
+  'black',
+  'black',
+  'black',
+  'black',
+  'black',
+  'black',
+  'teal',   // 15, P.jpg
+  'black',   
+  'black',
+  'black',
+  'black',
+  'black',
+  'white',  // 21, V.jpg
+  'orange', // 22, W.jpg
+  'red',    // 23, X.jpg
+  'black',
+  'black'
+);
 

@@ -1,3 +1,31 @@
+var predict = new Array(
+    "Settled fine",
+    "Fine weather",
+    "Becoming fine",
+    "Fine, becoming less settled",
+    "Fine, possible showers",
+    "Fairly fine, improving", 
+    "Fairly fine, possible showers early", 
+    "Fairly fine, showery later", 
+    "Showery early, improving", 
+    "Changeable, mending", 
+    "Fairly fine, showers likely", 
+    "Rather unsettled clearing later",
+    "Unsettled, probably improving",
+    "Showery, bright intervals", 
+    "Showery, becoming less settled",
+    "Changeable, some rain", 
+    "Unsettled, short fine intervals", 
+    "Unsettled, rain later", 
+    "Unsettled, some rain", 
+    "Mostly very unsettled", 
+    "Occasional rain, worsening", 
+    "Rain at times, very unsettled", 
+    "Rain at frequent intervals", 
+    "Rain, very unsettled", 
+    "Stormy, may improve", 
+    "Stormy, much rain"); 
+
 onModifyResult = function(p, v)
 {
     switch (p)
@@ -5,19 +33,23 @@ onModifyResult = function(p, v)
         case "T1":
         case "Th1":
         case "Tp":
-        case "Th":
+        case "Th":  
+            // Convert C to F
             v = (v * 9 / 5 + 32).toFixed(1);
             break;
 
-        case "H1":
-        case "H":
         case "P1":
         case "P":
+            // Convert mbar to in-Hg
+            v *= 0.02953;            
+        case "H1":
+        case "H":
             v = v.toFixed(1);
-            break;
+            break;            
         
-        case "D3P":
-            v = predict(v);
+        case "Z":
+            // Return string for appropriate conditions.
+            v = String.fromCharCode(v + 65) + ' - ' + predict[v];
             break;
             
         case "V":
@@ -31,52 +63,3 @@ onModifyResult = function(p, v)
     return v;
 };
 
-function predict(delta)
-{
-    // https://sciencing.com/high-low-reading-barometric-pressure-5814364.html
-    // Pressures and delta descriptions come from chart at the bottom of
-    // https://www.artofmanliness.com/lifestyle/gear/fair-or-foul-how-to-use-a-barometer/
-    // We don't have wind direction, so we'll "wing-it".
-
-    const MID_HIGH = 0.18;
-    const LOW_MID  = 0.04;
-    const SLOW_MID = 0.01;
-    const DFLT_CONDITION = "Same ole - Same ole";
-
-    if (P < 29.8)
-    {
-        if (delta < -MID_HIGH)
-			return "Severe northeast gales and heavy rain or snow,  followed in winter by cold wave.";
-        else if (delta > POS_MID_HIGH)
-			return "Clearing and colder.";
-        else
-			return DFLT_CONDITION;
-    }
-    else if (P < 30)
-    {
-        if (delta < -MID_HIGH)
-			return "Rain with high-wind, followed with 2 days by clearing, colder.";
-        else if (delta < -SLOW_MID)
-			return "Rain within 18 hours that will continue for a day or two.";
-        else if (delta < SLOW_MID)
-			return DFLT_CONDITION;
-        else    // delta > SLOW_MID
-			return "Clearing and colder within 12 hours.";
-    }
-    else if (P < 30.2)
-    {
-        if (delta < -MID_HIGH)
-			return "Warmer, and rain with 24 hours";
-        else if (delta < MID_HIGH)
-			return "Fair, with slight changes in temperature for 1 to 2 days.";
-        else    // delta > MID_HIGH
-			return "Fair, followed within 2 days by warmer and rain.";
-    }
-    else    // P >= 30.2
-    {
-        if (delta < -MID_HIGH)
-			return "Cold and clear, quickly followed by warmer and rain.";
-        else 
-			return "No early change.";
-    }
-};

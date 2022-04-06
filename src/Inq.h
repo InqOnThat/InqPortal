@@ -13,11 +13,9 @@ typedef s16 rc;
 const rc GOOD = 0;     
 
 #define EQUAL !strcmp
+#define ASSERT(c, f, ...) asrt(c, __FILE__, __LINE__, f, ## __VA_ARGS__)
 
-#define ASSERT(c, f, ...) { if (!(c)) { Serial.printf("## ASSERTI\n\
-  ## File: (%s  %d)\n## Reason: ", __FILE__, __LINE__); \
-  Serial.printf(f, ## __VA_ARGS__); \
-  while(true){ delay(100); system_soft_wdt_feed(); } } }
+void asrt(bool cond, const char* file, s32 line, const char* format, ...);
 
 //{ =========================== ERROR CONSTANTS ================================
 

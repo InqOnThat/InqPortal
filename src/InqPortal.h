@@ -1,4 +1,4 @@
-// Copyright (c) 20217-2022 Dennis E. Cox. All rights reserved.
+// Copyright (c) 2021-2022 Dennis E. Cox. All rights reserved.
 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,7 +18,7 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.2.3"
+#define InqPortalVersion "5.3.0"
 #define CannedVersion    "505"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
@@ -210,8 +210,15 @@
 //          * Comment changes in InqWeather.ino
 //          * Added InqSpeedRacer to Examples
 //          * InqPortal.js modification to re-support multi-server.
-// 5.2.3    2022/3/23
+// 5.2.3    2022/3/23   504
 //          * InqPortal.js enhancement to support checkboxes/radio buttons.
+// 5.3.0    2022/4/6    505
+//          * Mod Force Closing to handle both extreme high-rate and
+//              non-existent low-rate websockets when dropped router
+//          * InqDataLogger - handles historic logging.
+//          * InqWeather examples enhanced with Zambretti prediction.
+//          * Bug Fix - Troubles when changing station connections amoung
+//              local routers.
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies
@@ -271,9 +278,6 @@ public:
         // default.
         u16 port = 80);
         
-    // Save persist data
-    void saveConfig();
-
     //{ Publishing properties --------------------------------------------------
     
     // Add a heading line to the Admin for grouping your published variables
