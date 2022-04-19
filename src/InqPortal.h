@@ -18,7 +18,7 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.3.0"
+#define InqPortalVersion "5.3.1"
 #define CannedVersion    "505"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
@@ -219,6 +219,8 @@
 //          * InqWeather examples enhanced with Zambretti prediction.
 //          * Bug Fix - Troubles when changing station connections amoung
 //              local routers.
+// 5.3.1    2022/4/19   505
+//          * Set default baud back to more commonly used 115200 as default.
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies
@@ -247,7 +249,7 @@ public:
         u16 sizeConfig = 0, 
         
         // Speed for output to Arduino Serial Monitor.
-        u32 serialBaud = 74880);
+        u32 serialBaud = 115200);
         
     // Starts up the instance of InqPortal.  All values have workable defaults.
     rc begin(
