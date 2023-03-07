@@ -18,8 +18,8 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.3.1"
-#define CannedVersion    "505"   
+#define InqPortalVersion "5.3.2"
+#define CannedVersion    "506"   
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
 // 0.9.0    2020/01/15 Initial Version - complete re-write.  Previous version
@@ -219,8 +219,21 @@
 //          * InqWeather examples enhanced with Zambretti prediction.
 //          * Bug Fix - Troubles when changing station connections amoung
 //              local routers.
-// 5.3.1    2022/4/19   505
-//          * Set default baud back to more commonly used 115200 as default.
+// 5.3.1    2022/4/14   505
+//          * Set default Serial baud rate back to more commone 115200.
+// NOT PUBLISHED
+// 5.3.2    2023/3/2    506
+//          * Bug Fix - Boot count was showing 2 for the first one.
+//          * Bug Fix - JavaScript deprecated event "path" see InqFiles.js
+//          * Bug Fix - Repeated #define ESS_HOST_SLEEP removed.
+//          * Bug Fix - Changes to persisted data was not being committed.
+//          * Serial baud rate can be set to 0 and logging will not use.  
+//              Allows use of TX/RX lines for Sketch purposes at expense
+//              of seeing LOG message in Serial window.
+//          * Add Serial.flush() to help debug window output.
+//          * Allow publishRO to access constants like "version".
+//          * publishRO and publishRW no longer require a variable so they can
+//              be used as method calls.
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies

@@ -1,9 +1,6 @@
 InqPortal Library
 
-ESP8266 Based, Full featured IoT Application Server.
-InqPortal is available via the Arduino IDE Library Manageer.  
-The full cross-referenced manual, getting started guides, tutorials and 
-sample projects can be found at:  https://InqOnThat.com/InqPortal
+ESP8266 Full featured IoT Application Server.
 
 IMPORTANT:  To compile using the InqPortal library, you must add the 
     platform.local.txt file included in this folder to your ESP8266 library
@@ -41,4 +38,4 @@ All documentation is on-line
     
 * https://InqOnThat.com/InqPortal - Quick Start, Tutorial, Sample Projects
 * https://inqonthat.com/inqportal-class-reference/ - Sketch/C++ Library Reference
-* https://inqonthat.com/inqportal-help/ - Admin context sensative help links.  
+* https://inqonthat.com/inqportal-help/ (TBD) - Admin context sensative help links.  

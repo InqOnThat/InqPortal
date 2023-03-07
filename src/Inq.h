@@ -91,7 +91,6 @@ void asrt(bool cond, const char* file, s32 line, const char* format, ...);
 #define ESS_HOST_DHCP_START     -139
 #define ESS_HOST_SLEEP          -140
 #define ESS_HOST_SET_CFG        -141
-#define ESS_HOST_SLEEP          -142
 
 // StationAP Connection
 #define ERR_CLI_SSID            -143
