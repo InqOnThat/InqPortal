@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 Dennis E. Cox. All rights reserved.
+// Copyright (c) 2021-2023 Dennis E. Cox. All rights reserved.
 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,8 +18,8 @@
 #include <Inq.h>
 
 // Version History
-#define InqPortalVersion "5.3.2"
-#define CannedVersion    "506"   
+#define InqPortalVersion "5.4.0"
+#define CannedVersion "506"
 // 0.8.0    2017/02/01 Intitial Alpha version (many rewrites using various
 //          methodolgies.      
 // 0.9.0    2020/01/15 Initial Version - complete re-write.  Previous version
@@ -199,7 +199,7 @@
 //          * WebSocket improvements 
 //              * use lwIP FLAG_COPY to hold ACK waiting.
 //              * when loss occurs, remove from oldest.
-//                  Under optimum WiFi, 1ms intervals x 4 clients => 202KB/sec    
+//                  Under optimum WiFi, 1ms intervals x 4 clients => 202KB/sec
 //          * Default Serial baud set to 74880
 //          * Client-side better detect router power-off, user changing SSIDs.
 // 5.2.1    2022/3/17 
@@ -221,7 +221,6 @@
 //              local routers.
 // 5.3.1    2022/4/14   505
 //          * Set default Serial baud rate back to more commone 115200.
-// NOT PUBLISHED
 // 5.3.2    2023/3/2    506
 //          * Bug Fix - Boot count was showing 2 for the first one.
 //          * Bug Fix - JavaScript deprecated event "path" see InqFiles.js
@@ -234,6 +233,8 @@
 //          * Allow publishRO to access constants like "version".
 //          * publishRO and publishRW no longer require a variable so they can
 //              be used as method calls.
+// 5.4.0    2023/7/8  506
+//          * Update to use ESP8266 Board Library 3.1.2 and newer.
 
 // -----------------------------------------------------------------------------
 // onInterval dependencies

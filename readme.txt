@@ -2,18 +2,6 @@ InqPortal Library
 
 ESP8266 Full featured IoT Application Server.
 
-IMPORTANT:  To compile using the InqPortal library, you must add the 
-    platform.local.txt file included in this folder to your ESP8266 library
-    folder.  
-    
-    If you have a standard installation using the Windows installer, you 
-    should find the location at YMMV:
-    C:\Users\<User>\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.0.2
-    
-    If you followed our on-line installation using a Portable Arduino IDE, 
-    you should find the proper location at YMMY:    
-    C:\Users\<User>\Documents\Arduino\arduino-1.8.19\portable\packages\esp8266\hardware\esp8266\3.0.2
-    
 Derived directly from lwIP libraries to support application development.
 It includes a full browser based Admin GUI to
   (1) manage Soft and multiple Station Access Points with full scan for 
